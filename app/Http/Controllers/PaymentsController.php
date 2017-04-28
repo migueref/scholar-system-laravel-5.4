@@ -17,7 +17,7 @@ class PaymentsController extends Controller
     public function index()
     {
       if(Auth::user()) {
-        $payments = Payment::all();
+        $payments = Payment::with('bank','module','enrolment')->paginate(15);
         return view("payments.index",["payments"=>$payments]);
       } else {
         return view("home");

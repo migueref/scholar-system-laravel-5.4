@@ -18,8 +18,8 @@ class EnrolmentsController extends Controller
     public function index()
     {
       if(Auth::user()) {
-        $enrolments = Enrolment::with('student')->get();
-        $enrolments = Enrolment::with('group')->get();
+
+        $enrolments = Enrolment::with('student','group')->paginate(15);
         return view("enrolments.index",["enrolments"=>$enrolments]);
       } else {
         return view("home");

@@ -42,6 +42,16 @@
         </tbody>
       </table>
     </div>
+    <div class="container">
+      <div class="col-sm-5">
 
+      </div>
+      <div class="col-xs-12 col-sm-2">
+        <?php echo $enrolments->render(); ?>
+      </div>
+      <div class="col-sm-5">
+
+      </div>
+    </div>
 
 @endsection

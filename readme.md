@@ -6,7 +6,7 @@ Scholar contrl system for manage procedures and logistics of the academic admini
 This repository was built with the following technologies:
 
   - Laravel 5.4
-
+  - Bootstrap Material Design
 ## Connect with me
 
 Linkedin https://www.linkedin.com/in/migueref

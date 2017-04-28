@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use App\Enrolment;
+use App\Payment;
 
 class EnrolmentsController extends Controller
 {
@@ -19,13 +20,22 @@ class EnrolmentsController extends Controller
     {
       if(Auth::user()) {
 
-        $enrolments = Enrolment::with('student','group')->paginate(15);
+        $enrolments = Enrolment::with('student','group')->paginate(1);
         return view("enrolments.index",["enrolments"=>$enrolments]);
       } else {
         return view("home");
       }
     }
-
+    public function edit($id)
+    {
+      if(Auth::user()) {
+        $enrolment = Enrolment::with('student','group')->where('id', $id)->first();
+        $payments = Payment::with('bank','module','enrolment')->where('enrolment_id', $id)->paginate(1);
+        return view("enrolments.payment",["enrolment"=>$enrolment,"payments"=>$payments]);
+      } else {
+        return view("home");
+      }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -64,10 +74,7 @@ class EnrolmentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

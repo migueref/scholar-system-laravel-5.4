@@ -18,7 +18,7 @@ class GroupsController extends Controller
     public function index()
     {
       if(Auth::user()) {
-        $groups = Group::all();
+        $groups = Group::with('course')->get();
         return view("groups.index",["groups"=>$groups]);
       } else {
         return view("home");

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\Course;
+
 class CoursesController extends Controller
 {
     /**
@@ -16,7 +18,8 @@ class CoursesController extends Controller
     public function index()
     {
       if(Auth::user()) {
-        return view("courses.index");
+        $courses = Course::all();
+        return view("courses.index",["courses"=>$courses]);
       } else {
         return view("home");
       }

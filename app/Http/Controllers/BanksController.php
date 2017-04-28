@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
+use App\Bank;
 class BanksController extends Controller
 {
     /**
@@ -15,7 +17,8 @@ class BanksController extends Controller
     public function index()
     {
         if(Auth::user()) {
-          return view("banks.index");
+          $banks = Bank::all();
+          return view("banks.index",["banks"=>$banks]);
         } else {
           return view("home");
         }

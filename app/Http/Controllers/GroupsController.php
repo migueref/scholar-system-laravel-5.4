@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\Group;
 
 class GroupsController extends Controller
 {
@@ -16,14 +17,13 @@ class GroupsController extends Controller
      */
     public function index()
     {
-      public function index()
-      {
-          if(Auth::user()) {
-            return view("groups.index");
-          } else {
-            return view("home");
-          }
+      if(Auth::user()) {
+        $groups = Group::all();
+        return view("groups.index",["groups"=>$groups]);
+      } else {
+        return view("home");
       }
+    }
 
     /**
      * Show the form for creating a new resource.

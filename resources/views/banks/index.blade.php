@@ -10,10 +10,19 @@
           <tr>
             <td>ID</td>
             <td>Nombre de banco</td>
+            <td>Actions</td>
+
           </tr>
         </thead>
         <tbody>
-           
+           @foreach ($banks as $bank)
+            <tr>
+              <td>{{$bank->id}}</td>
+              <td>{{$bank->name}}</td>
+              <td>Actions</td>
+
+            </tr>
+           @endforeach
         </tbody>
       </table>
     </div>

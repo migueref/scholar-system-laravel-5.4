@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Payment;
 
 class PaymentsController extends Controller
 {
@@ -15,13 +16,11 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-      public function index()
-      {
-          if(Auth::user()) {
-            return view("payments.index");
-          } else {
-            return view("home");
-          }
+      if(Auth::user()) {
+        $payments = Payment::all();
+        return view("payments.index",["payments"=>$payments]);
+      } else {
+        return view("home");
       }
     }
 

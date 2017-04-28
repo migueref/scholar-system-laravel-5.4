@@ -34,9 +34,9 @@ class EnrolmentsTables extends Migration
       Schema::create('groups', function (Blueprint $table) {
           $table->increments('id');
           $table->string('shortname');
-          $table->integer('idCourse')->unsigned();
+          $table->integer('course_id')->unsigned();
 
-          $table->foreign('idCourse')->references('id')->on('courses');
+          $table->foreign('course_id')->references('id')->on('courses');
           $table->timestamps();
       });
       Schema::create('modules', function (Blueprint $table) {
@@ -52,8 +52,8 @@ class EnrolmentsTables extends Migration
       });
       Schema::create('enrolments', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('idGroup')->unsigned();
-          $table->integer('idStudent')->unsigned();
+          $table->integer('group_id')->unsigned();
+          $table->integer('student_id')->unsigned();
           $table->string('state');
           $table->decimal('discount', 8, 2);
           $table->decimal('surcharge', 8, 2);
@@ -62,8 +62,8 @@ class EnrolmentsTables extends Migration
           $table->timestamp('enrolment_date')->nullable();
           $table->timestamp('due_date')->nullable();
 
-          $table->foreign('idGroup')->references('id')->on('groups');
-          $table->foreign('idStudent')->references('id')->on('students');
+          $table->foreign('group_id')->references('id')->on('groups');
+          $table->foreign('student_id')->references('id')->on('students');
           $table->timestamps();
       });
       Schema::create('payments', function (Blueprint $table) {
@@ -72,17 +72,17 @@ class EnrolmentsTables extends Migration
           $table->decimal('amount', 8, 2);
           $table->string('type');
           $table->string('reference');
-          $table->integer('idBank')->unsigned();
+          $table->integer('bank_id')->unsigned();
           $table->string('bill');
           $table->text('description');
           $table->timestamp('payment_date')->nullable();
-          $table->integer('idModule')->unsigned();
-          $table->integer('idEnrolment')->unsigned();
+          $table->integer('module_id')->unsigned();
+          $table->integer('enrolment_id')->unsigned();
           $table->timestamps();
 
-          $table->foreign('idBank')->references('id')->on('banks');
-          $table->foreign('idModule')->references('id')->on('modules');
-          $table->foreign('idEnrolment')->references('id')->on('enrolments');
+          $table->foreign('bank_id')->references('id')->on('banks');
+          $table->foreign('module_id')->references('id')->on('modules');
+          $table->foreign('enrolment_id')->references('id')->on('enrolments');
       });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Student;
 
 class StudentsController extends Controller
 {
@@ -15,13 +16,11 @@ class StudentsController extends Controller
      */
     public function index()
     {
-      public function index()
-      {
-          if(Auth::user()) {
-            return view("students.index");
-          } else {
-            return view("home");
-          }
+      if(Auth::user()) {
+        $students = Student::all();
+        return view("students.index",["students"=>$students]);
+      } else {
+        return view("home");
       }
     }
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\Enrolment;
+
 class EnrolmentsController extends Controller
 {
     /**
@@ -15,13 +17,12 @@ class EnrolmentsController extends Controller
      */
     public function index()
     {
-      public function index()
-      {
-          if(Auth::user()) {
-            return view("enrolments.index");
-          } else {
-            return view("home");
-          }
+      if(Auth::user()) {
+        $enrolments = Enrolment::with('student')->get();
+        $enrolments = Enrolment::with('group')->get();
+        return view("enrolments.index",["enrolments"=>$enrolments]);
+      } else {
+        return view("home");
       }
     }
 

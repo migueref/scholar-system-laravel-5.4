@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\Module;
 
 class ModulesController extends Controller
 {
@@ -16,13 +17,11 @@ class ModulesController extends Controller
      */
     public function index()
     {
-      public function index()
-      {
-          if(Auth::user()) {
-            return view("modules.index");
-          } else {
-            return view("home");
-          }
+      if(Auth::user()) {
+        $modules = Module::all();
+        return view("modules.index",["modules"=>$modules]);
+      } else {
+        return view("home");
       }
     }
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 
 class GroupsController extends Controller
 {
@@ -14,8 +16,14 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        //
-    }
+      public function index()
+      {
+          if(Auth::user()) {
+            return view("groups.index");
+          } else {
+            return view("home");
+          }
+      }
 
     /**
      * Show the form for creating a new resource.

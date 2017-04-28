@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EnrolmentsController extends Controller
 {
@@ -14,7 +15,14 @@ class EnrolmentsController extends Controller
      */
     public function index()
     {
-        //
+      public function index()
+      {
+          if(Auth::user()) {
+            return view("enrolments.index");
+          } else {
+            return view("home");
+          }
+      }
     }
 
     /**

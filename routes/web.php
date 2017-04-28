@@ -14,6 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('courses','CoursesController');
+Route::resource('students','StudentsController');
+Route::resource('groups','GroupsController');
+Route::resource('modules','ModulesController');
+Route::resource('banks','BanksController');
+Route::resource('enrolments','EnrolmentsController');
+Route::resource('payments','PaymentsController');
 
 Auth::routes();
 

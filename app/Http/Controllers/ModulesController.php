@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 
 class ModulesController extends Controller
 {
@@ -14,7 +16,14 @@ class ModulesController extends Controller
      */
     public function index()
     {
-        //
+      public function index()
+      {
+          if(Auth::user()) {
+            return view("modules.index");
+          } else {
+            return view("home");
+          }
+      }
     }
 
     /**

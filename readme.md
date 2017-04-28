@@ -1,7 +1,7 @@
-Scholar control system Laravel 5.4
+Scholar control system built with Laravel 5.4
 =====================
 
-Scholar contrl system for manage procedures and logistics of the academic administration such as payments, enrolments, course administration and more.
+Scholar control system for manage procedures and logistics of the academic administration such as payments, enrolments, course administration and more.
 
 This repository was built with the following technologies:
 

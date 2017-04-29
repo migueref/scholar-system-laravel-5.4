@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Enrolment;
 use App\Payment;
+use App\Bank;
+use App\Module;
 
 class EnrolmentsController extends Controller
 {
@@ -29,9 +31,11 @@ class EnrolmentsController extends Controller
     public function edit($id)
     {
       if(Auth::user()) {
+        $banks = Bank::pluck('name', 'id');
+        $modules = Module::pluck('number', 'id');
         $enrolment = Enrolment::with('student','group')->where('id', $id)->first();
         $payments = Payment::with('bank','module','enrolment')->where('enrolment_id', $id)->paginate(1);
-        return view("enrolments.payment",["enrolment"=>$enrolment,"payments"=>$payments]);
+        return view("enrolments.payment",["enrolment"=>$enrolment,"banks"=>$banks,"modules"=>$modules,"payments"=>$payments]);
       } else {
         return view("home");
       }

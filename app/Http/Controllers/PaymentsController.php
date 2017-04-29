@@ -40,10 +40,29 @@ class PaymentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+     public function store(Request $request)
+     {
+         // Validate the request...
+
+         $payment = new Payment;
+
+         $payment->number = $request->number;
+         $payment->amount = $request->amount;
+         $payment->type = $request->type;
+         $payment->reference = $request->reference;
+         $payment->bank_id = $request->bank_id;
+         $payment->bill = $request->bill;
+         $payment->description = $request->description;
+         $payment->payment_date = $request->payment_date;
+         $payment->module_id = $request->module_id;
+         $payment->enrolment_id = $request->enrolment_id;
+
+         if($payment->save()){
+          return redirect("/enrolments");
+        }else{
+          return view("/enrolments");
+        }
+     }
 
     /**
      * Display the specified resource.

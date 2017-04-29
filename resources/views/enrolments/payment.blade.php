@@ -1,7 +1,7 @@
 @extends("layouts.app")
 @section("content")
   <div class="form-control">
-    <a href="{{url('/enrolments')}}">Regresar a inscripciones</a>
+    <a class="form-control white black-text" href="{{url('/enrolments')}}">Regresar a inscripciones</a>
   </div>
   <div class="big-padding text-center blue-grey white-text">
     <h1>Registro</h1>
@@ -67,7 +67,7 @@
 
         </div>
         <div class="jumbotron col-sm-6">
-          {!!Form::open(['url' => '/payment', 'method' => 'POST']) !!}
+          {!!Form::open(['url' => '/payments', 'method' => 'POST']) !!}
           <h2>Registrar colegiatura</h2>
           <div class="form-group">
             {{ Form::number('number','',['class' => 'form-control', 'placeholder'=>'Número de colegiatura'])}}
@@ -79,19 +79,29 @@
             {{ Form::text('type','',['class' => 'form-control', 'placeholder'=>'Tipo'])}}
           </div>
           <div class="form-group">
-            {{ Form::number('amount','',['class' => 'form-control', 'placeholder'=>'Monto'])}}
-          </div>
-          <div class="form-group">
             {{ Form::text('reference','',['class' => 'form-control', 'placeholder'=>'Referencia'])}}
           </div>
           <div class="form-group">
-            {{ Form::text('bank','',['class' => 'form-control', 'placeholder'=>'banco'])}}
+            {{ Form::label('bank_id', 'Banco', ['class' => 'control-label']) }}
+            {{ Form::select('bank_id',$banks,['class' => 'form-control', 'placeholder'=>'banco'])}}
           </div>
           <div class="form-group">
             {{ Form::text('bill','',['class' => 'form-control', 'placeholder'=>'Factura'])}}
           </div>
           <div class="form-group">
             {{ Form::text('description','',['class' => 'form-control', 'placeholder'=>'Comentarios'])}}
+          </div>
+          <div class="form-group">
+            {{ Form::date('payment_date','',['class' => 'form-control', 'placeholder'=>'Comentarios'])}}
+          </div>
+          <div class="form-group">
+            {{ Form::label('module_id', 'Módulo', ['class' => 'control-label']) }}
+
+            {{ Form::select('module_id',$modules,['class' => 'form-control', 'placeholder'=>'Módulo'])}}
+          </div>
+          <div class="form-group">
+
+            {{ Form::hidden('enrolment_id',$enrolment->id,['class' => 'form-control', 'placeholder'=>'Módulo'])}}
           </div>
           <div class="form-group text-right">
             <input type="submit" name="" value="Save" class="btn btn-success">
@@ -102,31 +112,46 @@
          <div class="col-sm-6">
            @foreach ($payments as $payment)
            <div class="col-xs-12 jumbotron">
-             {!!Form::open(['url' => '/payment', 'method' => 'POST']) !!}
+             {!!Form::open(['url' => '/payments', 'method' => 'POST']) !!}
              <h2>Pagos realizados</h2>
              <div class="form-group">
+               <label for="">Número de colegiatura</label>
                {{ Form::number('number',$payment->number,['class' => 'form-control', 'placeholder'=>'Número de colegiatura'])}}
              </div>
              <div class="form-group">
+               <label for="">Monto</label>
+
                {{ Form::number('amount',$payment->amount,['class' => 'form-control', 'placeholder'=>'Monto'])}}
              </div>
              <div class="form-group">
+               <label for="">Tipo</label>
+
                {{ Form::text('type',$payment->type,['class' => 'form-control', 'placeholder'=>'Tipo'])}}
              </div>
              <div class="form-group">
+               <label for="">Referencia</label>
+
                {{ Form::text('reference',$payment->reference,['class' => 'form-control', 'placeholder'=>'Referencia'])}}
              </div>
              <div class="form-group">
+               <label for="">Banco</label>
+
                {{ Form::text('bank',$payment->bank->name,['class' => 'form-control', 'placeholder'=>'banco'])}}
              </div>
              <div class="form-group">
+               <label for="">Número de factura</label>
+
                {{ Form::text('bill',$payment->bill,['class' => 'form-control', 'placeholder'=>'Factura'])}}
              </div>
              <div class="form-group">
+               <label for="">Comentarios</label>
+
                {{ Form::text('description',$payment->description,['class' => 'form-control', 'placeholder'=>'Comentarios'])}}
              </div>
              <div class="form-group">
-               {{ Form::date('description',$payment->payment_date,['class' => 'form-control', 'placeholder'=>'Comentarios'])}}
+               <label for="">Fecha del pago</label>
+
+               {{ Form::date('payment_date',$payment->payment_date,['class' => 'form-control', 'placeholder'=>'Comentarios'])}}
              </div>
              <div class="form-group text-right">
 

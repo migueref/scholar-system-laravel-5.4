@@ -1,9 +1,9 @@
 @extends("layouts.app")
 @section("content")
-  <div class="form-control">
+  <div class="form-control white black-text">
     <a class="form-control white black-text" href="{{url('/enrolments')}}">Regresar a inscripciones</a>
   </div>
-  <div class="big-padding text-center blue-grey white-text">
+  <div class=" text-center ">
     <h1>Registro</h1>
 
   </div>

@@ -21,7 +21,7 @@ class CoursesController extends Controller
         $courses = Course::all();
         return view("courses.index",["courses"=>$courses]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
 

@@ -25,7 +25,7 @@ class EnrolmentsController extends Controller
         $enrolments = Enrolment::with('student','group')->paginate(1);
         return view("enrolments.index",["enrolments"=>$enrolments]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
     public function edit($id)

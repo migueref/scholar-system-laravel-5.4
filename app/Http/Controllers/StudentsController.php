@@ -20,7 +20,7 @@ class StudentsController extends Controller
         $students = Student::all();
         return view("students.index",["students"=>$students]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
 
@@ -31,7 +31,12 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+      if(Auth::user()) {
+        $students = Student::all();
+        return view("students.create");
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -42,7 +47,18 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $student = new Student;
+      $student->firstname = $request->firstname;
+      $student->middlename = $request->middlename;
+      $student->lastname = $request->lastname;
+      $student->email = $request->email;
+      $student->phone = $request->phone;
+      $student->mobile = $request->mobile;
+      if($student->save()){
+        return redirect("/students");
+      }else{
+        return view("students.create");
+      }
     }
 
     /**

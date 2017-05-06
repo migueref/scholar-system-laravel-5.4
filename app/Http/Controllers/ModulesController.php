@@ -21,7 +21,7 @@ class ModulesController extends Controller
         $modules = Module::all();
         return view("modules.index",["modules"=>$modules]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
 

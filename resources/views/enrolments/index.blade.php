@@ -39,7 +39,7 @@
                 <td>{{$enrolment->due_Date}}</td>
                 <td>
                   <a href="{{url('/enrolments/'.$enrolment->id.'/edit')}}">
-                   Registrar colegiatura
+                   Registrar colegiatura</a>
                  </button>
                 </td>
 

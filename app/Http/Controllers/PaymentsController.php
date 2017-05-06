@@ -20,7 +20,7 @@ class PaymentsController extends Controller
         $payments = Payment::with('bank','module','enrolment')->paginate(15);
         return view("payments.index",["payments"=>$payments]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
 

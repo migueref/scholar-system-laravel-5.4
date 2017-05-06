@@ -21,7 +21,7 @@ class GroupsController extends Controller
         $groups = Group::with('course')->get();
         return view("groups.index",["groups"=>$groups]);
       } else {
-        return view("home");
+        return view("auth.login");
       }
     }
 

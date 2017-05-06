@@ -2,6 +2,13 @@
   margin-bottom: 0px;
 }
 
+.floating {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  z-index: 100;
+}
+
 table {
   text-align: left;
   line-height: 40px;
@@ -11,6 +18,10 @@ table {
   width: 500px;
   margin: 50px auto;
   border-radius: .25rem;
+}
+
+a.white-text:link {
+  text-decoration: none;
 }
 
 thead tr:first-child {

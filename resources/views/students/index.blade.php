@@ -28,8 +28,10 @@
               <td>{{$student->email}}</td>
               <td>{{$student->phone}}</td>
               <td>{{$student->mobile}}</td>
-              <td><a href="">
-               Editar</a></td>
+              <td>
+                <a class="btn btn-info"href="{{url('/students/'.$student->id.'/edit')}}">Editar</a>
+                @include('students.delete',['student'=>$student])
+              </td>
             </tr>
            @endforeach
         </tbody>

@@ -113,7 +113,7 @@ ul {
 }
 
 .red-text {
-  color: #c83232;
+  color: #c83232 !important;
 }
 
 .inline-block {

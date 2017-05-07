@@ -32,8 +32,8 @@ class StudentsController extends Controller
     public function create()
     {
       if(Auth::user()) {
-        $students = Student::all();
-        return view("students.create");
+        $student = new Student;
+        return view("students.create",["student"=>$student]);
       } else {
         return view("auth.login");
       }
@@ -80,7 +80,8 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::find($id);
+        return view("students.edit",["student"=>$student]);
     }
 
     /**
@@ -92,7 +93,18 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $student = Student::find($id);
+      $student->firstname = $request->firstname;
+      $student->middlename = $request->middlename;
+      $student->lastname = $request->lastname;
+      $student->email = $request->email;
+      $student->phone = $request->phone;
+      $student->mobile = $request->mobile;
+      if($student->save()){
+        return redirect("/students");
+      }else{
+        return view("students.edit",["student"=>$student]);
+      }
     }
 
     /**
@@ -103,6 +115,7 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Student::destroy($id);
+      return redirect('/students');
     }
 }

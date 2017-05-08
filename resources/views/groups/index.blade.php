@@ -22,12 +22,16 @@
               <td>{{$group->shortname}} </td>
               <td>{{$group->course->shortname}}</td>
               <td>{{$group->course->name}}</td>
-              <td>Actions</td>
+              <td>
+                <a class="btn btn-info"href="{{url('/groups/'.$group->id.'/edit')}}">Editar</a>
+                @include('groups.delete',['group'=>$group])
+              </td>
             </tr>
            @endforeach
         </tbody>
       </table>
     </div>
-
-
+    <div class="floating">
+      <a href="{{url('/groups/create')}}" class="btn btn-default btn-fab bottom right"><i class="material-icons">add</i></a>
+    </div>
 @endsection

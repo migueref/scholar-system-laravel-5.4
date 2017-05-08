@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use App\Group;
+use App\Course;
+use DB;
+
 
 class GroupsController extends Controller
 {
@@ -32,7 +35,15 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        //
+      if(Auth::user()) {
+        $courses = Course::select(
+            DB::raw("CONCAT(shortname,' - ',name) AS name"),'id')
+            ->pluck('name', 'id');
+        $group = new Group;
+        return view("groups.create",["group"=>$group,"courses"=>$courses]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -43,7 +54,14 @@ class GroupsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $group = new Group;
+      $group->shortname = $request->shortname;
+      $group->course_id = $request->course_id;
+      if($group->save()){
+        return redirect("/groups");
+      }else{
+        return view("groups.create");
+      }
     }
 
     /**
@@ -65,7 +83,15 @@ class GroupsController extends Controller
      */
     public function edit($id)
     {
-        //
+      if(Auth::user()) {
+        $courses = Course::select(
+            DB::raw("CONCAT(shortname,' - ',name) AS name"),'id')
+            ->pluck('name', 'id');
+        $group = Group::find($id);
+        return view("groups.edit",["group"=>$group,"courses"=>$courses]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -77,7 +103,14 @@ class GroupsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $group = Group::find($id);
+      $group->shortname = $request->shortname;
+      $group->course_id = $request->course_id;
+      if($group->save()){
+        return redirect("/groups");
+      }else{
+        return view("groups.edit",["group"=>$group]);
+      }
     }
 
     /**
@@ -88,6 +121,7 @@ class GroupsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Group::destroy($id);
+      return redirect('/groups');
     }
 }

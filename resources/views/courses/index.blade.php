@@ -1,7 +1,7 @@
 @extends("layouts.app")
 @section("content")
   <div class="big-padding text-center blue-grey white-text">
-    <h1>Courses</h1>
+    <h1>Cursos</h1>
 
   </div>
     <div class="container">
@@ -28,13 +28,17 @@
               <td>{{$course->degree_payment}}</td>
               <td>{{$course->created_at}}</td>
               <td>{{$course->updated_at}}</td>
-              <td>Actions</td>
+              <td>
+                <a class="btn btn-info"href="{{url('/courses/'.$course->id.'/edit')}}">Editar</a>
+                @include('courses.delete',['course'=>$course])
+              </td>
 
             </tr>
            @endforeach
         </tbody>
       </table>
     </div>
-
-
+    <div class="floating">
+      <a href="{{url('/courses/create')}}" class="btn btn-default btn-fab bottom right"><i class="material-icons">add</i></a>
+    </div>
 @endsection

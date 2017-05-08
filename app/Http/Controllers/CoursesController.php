@@ -32,7 +32,12 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        //
+      if(Auth::user()) {
+        $course = new Course;
+        return view("courses.create",["course"=>$course]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -43,7 +48,16 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $course = new Course;
+      $course->name = $request->name;
+      $course->shortname = $request->shortname;
+      $course->monthly_payment = $request->monthly_payment;
+      $course->degree_payment = $request->degree_payment;
+      if($course->save()){
+        return redirect("/courses");
+      }else{
+        return view("courses.create");
+      }
     }
 
     /**
@@ -65,7 +79,12 @@ class CoursesController extends Controller
      */
     public function edit($id)
     {
-        //
+      if(Auth::user()) {
+        $course = Course::find($id);
+        return view("courses.edit",["course"=>$course]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -77,7 +96,16 @@ class CoursesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $course = Course::find($id);
+      $course->name = $request->name;
+      $course->shortname = $request->shortname;
+      $course->monthly_payment = $request->monthly_payment;
+      $course->degree_payment = $request->degree_payment;
+      if($course->save()){
+        return redirect("/courses");
+      }else{
+        return view("courses.create");
+      }
     }
 
     /**
@@ -88,6 +116,7 @@ class CoursesController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Course::destroy($id);
+      return redirect('/courses');
     }
 }

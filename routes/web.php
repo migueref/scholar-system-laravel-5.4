@@ -22,6 +22,8 @@ Route::resource('banks','BanksController');
 Route::resource('enrolments','EnrolmentsController');
 Route::resource('payments','PaymentsController');
 
+Route::get('enrolments/payments/{id}', ['uses' =>'EnrolmentsController@payments']);
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

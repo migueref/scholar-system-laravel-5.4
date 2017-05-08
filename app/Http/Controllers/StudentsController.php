@@ -80,8 +80,12 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
+      if(Auth::user()) {
         $student = Student::find($id);
         return view("students.edit",["student"=>$student]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -93,17 +97,21 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $student = Student::find($id);
-      $student->firstname = $request->firstname;
-      $student->middlename = $request->middlename;
-      $student->lastname = $request->lastname;
-      $student->email = $request->email;
-      $student->phone = $request->phone;
-      $student->mobile = $request->mobile;
-      if($student->save()){
-        return redirect("/students");
-      }else{
-        return view("students.edit",["student"=>$student]);
+      if(Auth::user()) {
+        $student = Student::find($id);
+        $student->firstname = $request->firstname;
+        $student->middlename = $request->middlename;
+        $student->lastname = $request->lastname;
+        $student->email = $request->email;
+        $student->phone = $request->phone;
+        $student->mobile = $request->mobile;
+        if($student->save()){
+          return redirect("/students");
+        }else{
+          return view("students.edit",["student"=>$student]);
+        }
+      } else {
+        return view("auth.login");
       }
     }
 

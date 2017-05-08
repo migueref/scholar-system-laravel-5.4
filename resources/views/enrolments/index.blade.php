@@ -36,10 +36,11 @@
                 <td>{{$enrolment->description}}</td>
                 <td>{{$enrolment->registration_number}}</td>
                 <td>{{$enrolment->enrolment_date}}</td>
-                <td>{{$enrolment->due_Date}}</td>
+                <td>{{$enrolment->due_date}}</td>
                 <td>
-                  <a href="{{url('/enrolments/'.$enrolment->id.'/edit')}}">
-                   Registrar colegiatura</a>
+                  <a class="btn btn-default col-xs-12" href="{{url('/enrolments/payments/'.$enrolment->id)}}">Colegiaturas</a>
+                  <a class="btn btn-warning col-xs-12" href="{{url('/enrolments/'.$enrolment->id.'/edit')}}">Editar</a>
+                  @include('enrolments.delete',['enrolment'=>$enrolment])
                  </button>
                 </td>
 
@@ -84,5 +85,8 @@
 
       </div>
     </div>
+    <div class="floating">
+      <a href="{{url('/enrolments/create')}}" class="btn btn-default btn-fab bottom right"><i class="material-icons">add</i></a>
 
+    </div>
 @endsection

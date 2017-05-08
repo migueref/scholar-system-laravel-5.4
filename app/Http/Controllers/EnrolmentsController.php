@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Enrolment;
 use App\Payment;
 use App\Bank;
+use App\Group;
+use App\Student;
 use App\Module;
+use DB;
 
 class EnrolmentsController extends Controller
 {
@@ -22,13 +25,26 @@ class EnrolmentsController extends Controller
     {
       if(Auth::user()) {
 
-        $enrolments = Enrolment::with('student','group')->paginate(1);
+        $enrolments = Enrolment::with('student','group')->paginate(20);
         return view("enrolments.index",["enrolments"=>$enrolments]);
       } else {
         return view("auth.login");
       }
     }
     public function edit($id)
+    {
+      if(Auth::user()) {
+        $groups = Group::pluck('shortname', 'id');
+        $students = Student::select(
+            DB::raw("CONCAT(firstname,' ',middlename,' ',lastname) AS name"),'id')
+            ->pluck('name', 'id');
+        $enrolment = Enrolment::find($id);
+        return view("enrolments.edit",["enrolment"=>$enrolment,"groups"=>$groups,"students"=>$students]);
+      } else {
+        return view("auth.login");
+      }
+    }
+    public function payments($id)
     {
       if(Auth::user()) {
         $banks = Bank::pluck('name', 'id');
@@ -47,7 +63,16 @@ class EnrolmentsController extends Controller
      */
     public function create()
     {
-        //
+      if(Auth::user()) {
+        $groups = Group::pluck('shortname', 'id');
+        $students = Student::select(
+            DB::raw("CONCAT(firstname,' ',middlename,' ',lastname) AS name"),'id')
+            ->pluck('name', 'id');
+        $enrolment = new Enrolment;
+        return view("enrolments.create",["enrolment"=>$enrolment,"groups"=>$groups,"students"=>$students]);
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -58,7 +83,21 @@ class EnrolmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $enrolment = new Enrolment;
+      $enrolment->group_id = $request->group_id;
+      $enrolment->student_id = $request->student_id;
+      $enrolment->state = $request->state;
+      $enrolment->discount = $request->discount;
+      $enrolment->surcharge = $request->surcharge;
+      $enrolment->registration_number = $request->registration_number;
+      $enrolment->enrolment_date = $request->enrolment_date;
+      $enrolment->due_date = $request->due_date;
+      $enrolment->description = $request->description;
+      if($enrolment->save()){
+        return redirect("/enrolments");
+      }else{
+        return view("enrolments.create");
+      }
     }
 
     /**
@@ -89,7 +128,25 @@ class EnrolmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      if(Auth::user()) {
+        $enrolment = Enrolment::find($id);
+        $enrolment->group_id = $request->group_id;
+        $enrolment->student_id = $request->student_id;
+        $enrolment->state = $request->state;
+        $enrolment->discount = $request->discount;
+        $enrolment->surcharge = $request->surcharge;
+        $enrolment->registration_number = $request->registration_number;
+        $enrolment->enrolment_date = $request->enrolment_date;
+        $enrolment->due_date = $request->due_date;
+        $enrolment->description = $request->description;
+        if($enrolment->save()){
+          return redirect("/enrolments");
+        }else{
+          return view("enrolments.create");
+        }
+      } else {
+        return view("auth.login");
+      }
     }
 
     /**
@@ -100,6 +157,7 @@ class EnrolmentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      Enrolment::destroy($id);
+      return redirect('/enrolments');
     }
 }

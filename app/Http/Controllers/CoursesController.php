@@ -15,14 +15,14 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
-      if(Auth::user()) {
         $courses = Course::all();
         return view("courses.index",["courses"=>$courses]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**
@@ -32,12 +32,8 @@ class CoursesController extends Controller
      */
     public function create()
     {
-      if(Auth::user()) {
         $course = new Course;
         return view("courses.create",["course"=>$course]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**
@@ -79,12 +75,8 @@ class CoursesController extends Controller
      */
     public function edit($id)
     {
-      if(Auth::user()) {
         $course = Course::find($id);
         return view("courses.edit",["course"=>$course]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**

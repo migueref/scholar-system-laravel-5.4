@@ -21,8 +21,9 @@ Route::resource('modules','ModulesController');
 Route::resource('banks','BanksController');
 Route::resource('enrolments','EnrolmentsController');
 Route::resource('payments','PaymentsController');
-
 Route::get('enrolments/payments/{id}', ['uses' =>'EnrolmentsController@payments']);
+Route::post('home/searchGroup', ['uses' =>'HomeController@findByGroup']);
+Route::post('home/searchStudent', ['uses' =>'HomeController@findByStudent']);
 
 Auth::routes();
 

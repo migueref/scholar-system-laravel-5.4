@@ -21,40 +21,31 @@ class EnrolmentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
-      if(Auth::user()) {
-
         $enrolments = Enrolment::with('student','group')->paginate(20);
         return view("enrolments.index",["enrolments"=>$enrolments]);
-      } else {
-        return view("auth.login");
-      }
     }
     public function edit($id)
     {
-      if(Auth::user()) {
         $groups = Group::pluck('shortname', 'id');
         $students = Student::select(
             DB::raw("CONCAT(firstname,' ',middlename,' ',lastname) AS name"),'id')
             ->pluck('name', 'id');
         $enrolment = Enrolment::find($id);
         return view("enrolments.edit",["enrolment"=>$enrolment,"groups"=>$groups,"students"=>$students]);
-      } else {
-        return view("auth.login");
-      }
     }
     public function payments($id)
     {
-      if(Auth::user()) {
         $banks = Bank::pluck('name', 'id');
         $modules = Module::pluck('number', 'id');
         $enrolment = Enrolment::with('student','group')->where('id', $id)->first();
         $payments = Payment::with('bank','module','enrolment')->where('enrolment_id', $id)->paginate(1);
         return view("enrolments.payment",["enrolment"=>$enrolment,"banks"=>$banks,"modules"=>$modules,"payments"=>$payments]);
-      } else {
-        return view("home");
-      }
     }
     /**
      * Show the form for creating a new resource.
@@ -63,16 +54,12 @@ class EnrolmentsController extends Controller
      */
     public function create()
     {
-      if(Auth::user()) {
         $groups = Group::pluck('shortname', 'id');
         $students = Student::select(
             DB::raw("CONCAT(firstname,' ',middlename,' ',lastname) AS name"),'id')
             ->pluck('name', 'id');
         $enrolment = new Enrolment;
         return view("enrolments.create",["enrolment"=>$enrolment,"groups"=>$groups,"students"=>$students]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**
@@ -128,7 +115,6 @@ class EnrolmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-      if(Auth::user()) {
         $enrolment = Enrolment::find($id);
         $enrolment->group_id = $request->group_id;
         $enrolment->student_id = $request->student_id;
@@ -144,9 +130,6 @@ class EnrolmentsController extends Controller
         }else{
           return view("enrolments.create");
         }
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**

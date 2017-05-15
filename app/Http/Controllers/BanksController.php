@@ -14,14 +14,14 @@ class BanksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
-        if(Auth::user()) {
           $banks = Bank::all();
           return view("banks.index",["banks"=>$banks]);
-        } else {
-          return view("home");
-        }
     }
 
     /**

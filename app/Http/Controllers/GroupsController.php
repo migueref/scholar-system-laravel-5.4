@@ -18,14 +18,14 @@ class GroupsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
-      if(Auth::user()) {
         $groups = Group::with('course')->get();
         return view("groups.index",["groups"=>$groups]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**
@@ -35,15 +35,11 @@ class GroupsController extends Controller
      */
     public function create()
     {
-      if(Auth::user()) {
         $courses = Course::select(
             DB::raw("CONCAT(shortname,' - ',name) AS name"),'id')
             ->pluck('name', 'id');
         $group = new Group;
         return view("groups.create",["group"=>$group,"courses"=>$courses]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**
@@ -72,7 +68,8 @@ class GroupsController extends Controller
      */
     public function show($id)
     {
-        //
+      $group = Group::find($id);
+      return view("home.index",["group"=>$group]);
     }
 
     /**
@@ -83,15 +80,11 @@ class GroupsController extends Controller
      */
     public function edit($id)
     {
-      if(Auth::user()) {
         $courses = Course::select(
             DB::raw("CONCAT(shortname,' - ',name) AS name"),'id')
             ->pluck('name', 'id');
         $group = Group::find($id);
         return view("groups.edit",["group"=>$group,"courses"=>$courses]);
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**

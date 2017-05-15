@@ -14,14 +14,13 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct() {
+         $this->middleware('auth');
+    }
     public function index()
     {
-      if(Auth::user()) {
-        $students = Student::all();
-        return view("students.index",["students"=>$students]);
-      } else {
-        return view("auth.login");
-      }
+      $students = Student::all();
+      return view("students.index",["students"=>$students]);
     }
 
     /**
@@ -31,12 +30,8 @@ class StudentsController extends Controller
      */
     public function create()
     {
-      if(Auth::user()) {
-        $student = new Student;
-        return view("students.create",["student"=>$student]);
-      } else {
-        return view("auth.login");
-      }
+      $student = new Student;
+      return view("students.create",["student"=>$student]);
     }
 
     /**
@@ -80,12 +75,8 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-      if(Auth::user()) {
-        $student = Student::find($id);
-        return view("students.edit",["student"=>$student]);
-      } else {
-        return view("auth.login");
-      }
+      $student = Student::find($id);
+      return view("students.edit",["student"=>$student]);
     }
 
     /**
@@ -96,8 +87,7 @@ class StudentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-      if(Auth::user()) {
+    {      
         $student = Student::find($id);
         $student->firstname = $request->firstname;
         $student->middlename = $request->middlename;
@@ -110,9 +100,6 @@ class StudentsController extends Controller
         }else{
           return view("students.edit",["student"=>$student]);
         }
-      } else {
-        return view("auth.login");
-      }
     }
 
     /**

@@ -14,14 +14,14 @@ class PaymentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
-      if(Auth::user()) {
-        $payments = Payment::with('bank','module','enrolment')->paginate(15);
-        return view("payments.index",["payments"=>$payments]);
-      } else {
-        return view("auth.login");
-      }
+      $payments = Payment::with('bank','module','enrolment')->paginate(15);
+      return view("payments.index",["payments"=>$payments]);
     }
 
     /**
@@ -43,7 +43,6 @@ class PaymentsController extends Controller
      public function store(Request $request)
      {
          // Validate the request...
-
          $payment = new Payment;
 
          $payment->number = $request->number;
@@ -59,9 +58,9 @@ class PaymentsController extends Controller
 
          if($payment->save()){
           return redirect("/enrolments");
-        }else{
+         }else{
           return view("/enrolments");
-        }
+         }
      }
 
     /**
